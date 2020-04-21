@@ -7,6 +7,7 @@ import EditPlaylist from './Pages/EditPlaylist';
 import EditQueue from './Pages/EditQueue';
 import Search from './Pages/Search';
 import Library from './Pages/Library';
+import { Album } from '@material-ui/icons'
 
 export default class App extends React.PureComponent {
   constructor(props){
@@ -98,7 +99,7 @@ export default class App extends React.PureComponent {
 
   removeFunc = (item, list) => {
     const temp = []
-    list.map((listItem) => {
+    list.forEach((listItem) => {
       if(listItem !== item){
         temp.push(listItem)
       }
@@ -109,7 +110,7 @@ export default class App extends React.PureComponent {
   handleChange = (event) => {
     this.setState({searchValue: event.target.value});
     var temp = []
-    this.state.songNames.map((song) => {
+    this.state.songNames.forEach((song) => {
       if(song.name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
         temp.push(song)
       }
@@ -120,6 +121,7 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <div className="App">
+        <h1><Album />  Popify  <Album /></h1>
         {this.state.page === 'LandingPage' ?
           <Page pageChanger = {this.changeState}/>
         : this.state.page === 'Playlists' ?
@@ -132,7 +134,7 @@ export default class App extends React.PureComponent {
           <Library state = {this.state} setState = {(newState) => this.setState(newState)}/>
         : this.state.page === 'Edit List' ? 
           <EditPlaylist state = {this.state} setState = {(newState) => this.setState(newState)}/>
-        : this.state.page === 'Edit Queue' && 
+        : this.state.page === 'My Queue' && 
           <EditQueue state = {this.state} setState = {(newState) => this.setState(newState)}/>
         }
       </div>

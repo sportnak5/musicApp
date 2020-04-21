@@ -5,5 +5,8 @@
 }
 
 .button {
-    size: 20pt;
+    width: 500px
+}
+.menuButton {
+    width: 500px;
 }

@@ -1,9 +1,10 @@
 import React from 'react'
+import { Button } from '@material-ui/core'
 
 export default class NowPlaying extends React.PureComponent{
     render() {
         return (
-            <button onClick = {() => this.props.pageChanger('Edit Queue')}>{'Queue'}</button>
+            <Button onClick = {() => this.props.pageChanger('Edit Queue')}>{'View Queue'}</Button>
         )
     }
 }
