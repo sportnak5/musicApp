@@ -10,9 +10,9 @@ export default class Page extends React.PureComponent {
                     {this.props.contents ? 
                         this.props.contents
                     :
-                        <div>
-                            {'what'}
-                        </div>
+                        <h2>
+                            Welcome to Popify!
+                        </h2>
                     }
                 </div>
             </div>
