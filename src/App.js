@@ -4,6 +4,8 @@ import Page from './Components/Page';
 import ListView from './Components/ListView';
 import Header from './Components/Header';
 import NowPlaying from './Components/NowPlaying';
+import { TextField } from '@material-ui/core'
+import { Album } from '@material-ui/icons'
 
 export default class App extends React.PureComponent {
   constructor(props){
@@ -95,7 +97,7 @@ export default class App extends React.PureComponent {
 
   removeFunc = (item, list) => {
     const temp = []
-    list.map((listItem) => {
+    list.forEach((listItem) => {
       if(listItem !== item){
         temp.push(listItem)
       }
@@ -106,7 +108,7 @@ export default class App extends React.PureComponent {
   handleChange = (event) => {
     this.setState({searchValue: event.target.value});
     var temp = []
-    this.state.songNames.map((song) => {
+    this.state.songNames.forEach((song) => {
       if(song.name.toLowerCase().includes(this.state.searchValue.toLowerCase())){
         temp.push(song)
       }
@@ -117,6 +119,7 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <div className="App">
+        <h1><Album />  Popify  <Album /></h1>
         {this.state.page === 'LandingPage' ?
           <Page pageChanger = {this.changeState}/>
         : this.state.page === 'Playlists' ?
@@ -149,7 +152,7 @@ export default class App extends React.PureComponent {
               </>
             }
           />
-        : this.state.page === 'Now Playing' ?
+        : this.state.page === 'My Queue' ?
           <Page 
             pageChanger = {this.changeState}
             contents = {
@@ -161,8 +164,7 @@ export default class App extends React.PureComponent {
             pageChanger = {this.changeState} 
             contents = {
               <>
-                <Header page = {this.state.page}/>
-                <input type = 'text' name = 'song name' onChange = {this.handleChange}/>
+                <TextField label="Search" name = 'song name' onChange = {this.handleChange}/>
                 <ListView 
                   pageChanger = {this.changeState} 
                   data = {this.state.searchResults.length === 0 ? this.state.songNames : this.state.searchResults}
@@ -175,11 +177,11 @@ export default class App extends React.PureComponent {
                         songs: temp
                       }})
                     } else if (this.state.previousPage === 'Library'){
-                      var temp = this.state.librarySongs
+                      temp = this.state.librarySongs
                       temp.push(song)
                       this.setState({librarySongs: temp})
                     } else if (this.state.previousPage === 'Edit Queue'){
-                      var temp = this.state.queue
+                      temp = this.state.queue
                       temp.push(song)
                       this.setState({queue: temp})
                     } else {
