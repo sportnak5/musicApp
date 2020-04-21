@@ -1,9 +1,12 @@
 import React from 'react';
 import './App.css';
 import Page from './Components/Page';
-import ListView from './Components/ListView';
-import Header from './Components/Header';
-import NowPlaying from './Components/NowPlaying';
+import Playlists from './Pages/Playlists'
+import NowPlayingPage from './Pages/NowPlayingPage';
+import EditPlaylist from './Pages/EditPlaylist';
+import EditQueue from './Pages/EditQueue';
+import Search from './Pages/Search';
+import Library from './Pages/Library';
 
 export default class App extends React.PureComponent {
   constructor(props){
@@ -120,144 +123,18 @@ export default class App extends React.PureComponent {
         {this.state.page === 'LandingPage' ?
           <Page pageChanger = {this.changeState}/>
         : this.state.page === 'Playlists' ?
-          <Page 
-            pageChanger = {this.changeState} 
-            contents = {
-              <>
-                <Header 
-                  page = {this.state.page}
-                  addButtonHandler = {() => {
-                    const newPlaylist = {
-                      name: 'New Playlist ' + this.state.playlists.length,
-                      songs: []
-                    }
-                    var temp = this.state.playlists
-                    temp.push(newPlaylist)
-                    this.setState({page: 'Edit List', currentPlaylist: newPlaylist, playlists: temp})
-                  }}
-                />
-                <ListView 
-                  pageChanger = {this.changeState} 
-                  removeOnClick = {(playlist) => {
-                    this.setState({playlists: this.removeFunc(playlist, this.state.playlists)})
-                  }}
-                  data = {this.state.playlists}
-                  onClick = {(currentPlaylist) => {
-                    this.setState({page: 'Edit List', currentPlaylist})
-                  }}
-                />
-              </>
-            }
-          />
+          <Playlists state = {this.state} setState = {(newState) => this.setState(newState)}/>
         : this.state.page === 'Now Playing' ?
-          <Page 
-            pageChanger = {this.changeState}
-            contents = {
-              <NowPlaying pageChanger = {this.changeState}/>
-            }
-          />
+          <NowPlayingPage setState = {(newState) => this.setState(newState)}/>
         : this.state.page === 'Search' ?
-          <Page 
-            pageChanger = {this.changeState} 
-            contents = {
-              <>
-                <Header page = {this.state.page}/>
-                <input type = 'text' name = 'song name' onChange = {this.handleChange}/>
-                <ListView 
-                  pageChanger = {this.changeState} 
-                  data = {this.state.searchResults.length === 0 ? this.state.songNames : this.state.searchResults}
-                  onClick = {(song) => {
-                    if (this.state.previousPage === 'Edit List'){
-                      var temp = this.state.currentPlaylist.songs
-                      temp.push(song)
-                      this.setState({currentPlaylist: {
-                        ...this.state.currentPlaylist,
-                        songs: temp
-                      }})
-                    } else if (this.state.previousPage === 'Library'){
-                      var temp = this.state.librarySongs
-                      temp.push(song)
-                      this.setState({librarySongs: temp})
-                    } else if (this.state.previousPage === 'Edit Queue'){
-                      var temp = this.state.queue
-                      temp.push(song)
-                      this.setState({queue: temp})
-                    } else {
-                      console.log('oops')
-                    }
-                  }}
-                />
-              </>
-            }
-          />
+          <Search state = {this.state} setState = {(newState) => this.setState(newState)}/>
         : this.state.page === 'Library' ?
-          <Page 
-            pageChanger = {this.changeState} 
-            contents = {
-              <>
-                <Header 
-                  page = {this.state.page}
-                  addButtonHandler = {() => {
-                    this.setState({page: 'Search', previousPage: 'Library'})
-                  }}
-                />
-                <ListView 
-                  pageChanger = {this.changeState} 
-                  data = {this.state.librarySongs}
-                  removeOnClick = {(song) => {
-                    this.setState({librarySongs: this.removeFunc(song, this.state.librarySongs)})
-                  }}
-                />
-              </>
-            }
-          />
+          <Library state = {this.state} setState = {(newState) => this.setState(newState)}/>
         : this.state.page === 'Edit List' ? 
-          <Page 
-            pageChanger = {this.changeState} 
-            contents = {
-              <>
-                <Header 
-                  page = {this.state.page}
-                  name = {this.state.currentPlaylist ? this.state.currentPlaylist.name : 'N/A'}
-                  addButtonHandler = {() => {
-                    this.setState({page: 'Search', previousPage: 'Edit List'})
-                  }}
-                />
-                <ListView 
-                  pageChanger = {this.changeState} 
-                  data = {this.state.currentPlaylist.songs}
-                  removeOnClick = {(song) => {
-                    this.setState({currentPlaylist: {
-                      ...this.state.currentPlaylist,
-                      songs: this.removeFunc(song, this.state.currentPlaylist.songs)
-                    }})
-                  }}
-                />
-              </>
-            }
-          />
-          : this.state.page === 'Edit Queue' && 
-          <Page 
-            pageChanger = {this.changeState} 
-            contents = {
-              <>
-                <Header 
-                  page = {this.state.page}
-                  name = {'Queue'}
-                  addButtonHandler = {() => {
-                    this.setState({page: 'Search', previousPage: 'Edit Queue'})
-                  }}
-                />
-                <ListView 
-                  pageChanger = {this.changeState} 
-                  data = {this.state.queue}
-                  removeOnClick = {(song) => {
-                    this.setState({queue: this.removeFunc(song, this.state.queue)})
-                  }}
-                />
-              </>
-            }
-          />}
+          <EditPlaylist state = {this.state} setState = {(newState) => this.setState(newState)}/>
+        : this.state.page === 'Edit Queue' && 
+          <EditQueue state = {this.state} setState = {(newState) => this.setState(newState)}/>
+        }
       </div>
     )
   };
