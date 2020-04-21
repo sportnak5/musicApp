@@ -1,0 +1,9 @@
+.list {
+    list-style-type: '';
+    flex-direction: 'row';
+    width: '15%';
+}
+
+.button {
+    size: 20pt;
+}
