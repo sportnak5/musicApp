@@ -97,16 +97,6 @@ export default class App extends React.PureComponent {
     this.setState({page: newPage})
   }
 
-  removeFunc = (item, list) => {
-    const temp = []
-    list.forEach((listItem) => {
-      if(listItem !== item){
-        temp.push(listItem)
-      }
-    })
-    return temp
-  }
-
   handleChange = (event) => {
     this.setState({searchValue: event.target.value});
     var temp = []

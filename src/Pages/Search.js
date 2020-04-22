@@ -15,7 +15,8 @@ export default class Search extends React.PureComponent{
           }
         })
         this.props.setState({searchResults: temp})
-      }
+    }
+
     render() {
         return(
             <Page 
@@ -24,6 +25,7 @@ export default class Search extends React.PureComponent{
                     <>
                         <TextField label="Search" onChange = {this.handleChange}/>
                         <ListView 
+                            page = {'Search'}
                             pageChanger = {(newPage) => this.props.setState({page: newPage})} 
                             data = {this.props.state.searchResults.length === 0 ? this.props.state.songNames : this.props.state.searchResults}
                             onClick = {(song) => {
