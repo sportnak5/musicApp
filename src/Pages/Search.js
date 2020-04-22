@@ -2,16 +2,27 @@ import React from 'react';
 import Page from '../Components/Page';
 import Header from '../Components/Header';
 import ListView from '../Components/ListView';
+import { TextField } from '@material-ui/core'
 
 export default class Search extends React.PureComponent{
+
+    handleChange = (event) => {
+        this.props.setState({searchValue: event.target.value});
+        var temp = []
+        this.props.state.songNames.forEach((song) => {
+          if(song.name.toLowerCase().includes(this.props.state.searchValue.toLowerCase())){
+            temp.push(song)
+          }
+        })
+        this.props.setState({searchResults: temp})
+      }
     render() {
         return(
             <Page 
                 pageChanger = {(newPage) => this.props.setState({page: newPage})} 
                 contents = {
                     <>
-                        <Header page = {this.props.state.page}/>
-                        <input type = 'text' name = 'song name' onChange = {this.handleChange}/>
+                        <TextField label="Search" onChange = {this.handleChange}/>
                         <ListView 
                             pageChanger = {(newPage) => this.props.setState({page: newPage})} 
                             data = {this.props.state.searchResults.length === 0 ? this.props.state.songNames : this.props.state.searchResults}
@@ -24,11 +35,11 @@ export default class Search extends React.PureComponent{
                                         songs: temp
                                     }})
                                 } else if (this.props.state.previousPage === 'Library'){
-                                    var temp = this.props.state.librarySongs
+                                    temp = this.props.state.librarySongs
                                     temp.push(song)
                                     this.props.setState({librarySongs: temp})
                                 } else if (this.props.state.previousPage === 'Edit Queue'){
-                                    var temp = this.props.state.queue
+                                    temp = this.props.state.queue
                                     temp.push(song)
                                     this.props.setState({queue: temp})
                                 } else {
