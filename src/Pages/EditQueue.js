@@ -4,6 +4,16 @@ import Page from '../Components/Page';
 import ListView from '../Components/ListView';
 
 export default class EditQueue extends React.PureComponent{
+    removeFunc = (item, list) => {
+        const temp = []
+        list.forEach((listItem) => {
+          if(listItem !== item){
+            temp.push(listItem)
+          }
+        })
+        return temp
+    }
+
     render() {
         return(
             <Page 
@@ -18,6 +28,7 @@ export default class EditQueue extends React.PureComponent{
                         }}
                     />
                     <ListView 
+                        page = {'My Queue'}
                         pageChanger = {(newPage) => this.props.setState({page: newPage})} 
                         data = {this.props.state.queue}
                         removeOnClick = {(song) => {

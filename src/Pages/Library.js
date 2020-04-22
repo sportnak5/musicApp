@@ -4,6 +4,16 @@ import Header from '../Components/Header';
 import ListView from '../Components/ListView';
 
 export default class Library extends React.PureComponent{
+    removeFunc = (item, list) => {
+        const temp = []
+        list.forEach((listItem) => {
+          if(listItem !== item){
+            temp.push(listItem)
+          }
+        })
+        return temp
+      }
+
     render() {
         return(
             <Page 
@@ -17,6 +27,7 @@ export default class Library extends React.PureComponent{
                         }}
                     />
                     <ListView 
+                        page = {'Library'}
                         pageChanger = {(newPage) => this.props.setState({page: newPage})}
                         data = {this.props.state.librarySongs}
                         removeOnClick = {(song) => {
